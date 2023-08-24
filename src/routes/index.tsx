@@ -10,6 +10,7 @@ import Page1 from "@/pages/page1";
 import Page2 from "@/pages/page2";
 import Page3 from "@/pages/page3";
 import UserProfile from "@/pages/user-profile";
+import ChangeUserPassword from "@/pages/change-user-password";
 import NotFound from "@/pages/not-found";
 import {
     ROUTE_NOT_FOUND,
@@ -24,7 +25,6 @@ import {
     ROUTE_TO_PAGE_3,
     ROUTE_TO_USER_PROFILE,
 } from "@/constants";
-import ChangeUserPassword from "@/pages/change-user-password";
 import { ProtectedRoute } from "./ProtectedRoute";
 
 function RoutesApp() {

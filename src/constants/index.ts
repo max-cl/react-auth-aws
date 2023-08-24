@@ -14,6 +14,9 @@ export const ERROR_INVALID_PASSWORD =
 export const ERROR_EMPTY_CONFIRM_PASSWORD = "Confirm Password is required";
 export const ERROR_INVALID_CONFIRM_PASSWORD =
     "Confirm Password must be 8+ chars with 1+ uppercase, lowercase, number, 1+ special character";
+export const ERROR_EMPTY_OLD_PASSWORD = "Old Password is required";
+export const ERROR_EMPTY_NEW_PASSWORD = "New password is required";
+export const ERROR_EMPTY_CONFIRM_NEW_PASSWORD = "Confirm new password is required";
 export const ERROR_EMPTY_CONFIRMATION_CODE = "Confirmation code is required";
 export const ERROR_USER_NOT_CONFIRMED = "User is not confirmed.";
 export const ERROR_PASSWORDS_NOT_MATCH = "Passwords do not match";
