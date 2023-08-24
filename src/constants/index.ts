@@ -4,11 +4,16 @@
 export const ERROR_EMPTY_FIELDS = "Fields cannot be empty";
 export const ERROR_EMPTY_FIELD = "Field cannot be empty";
 /**** */
+export const ERROR_EMPTY_FIRSTNAME = "First name is required";
+export const ERROR_EMPTY_LASTNAME = "Last name is required";
 export const ERROR_EMPTY_EMAIL = "Email is required";
 export const ERROR_INVALID_EMAIL = "Invalid email address";
 export const ERROR_EMPTY_PASSWORD = "Password is required";
 export const ERROR_INVALID_PASSWORD =
     "Password must be 8+ chars with 1+ uppercase, lowercase, number, 1+ special character";
+export const ERROR_EMPTY_CONFIRM_PASSWORD = "Confirm Password is required";
+export const ERROR_INVALID_CONFIRM_PASSWORD =
+    "Confirm Password must be 8+ chars with 1+ uppercase, lowercase, number, 1+ special character";
 export const ERROR_USER_NOT_CONFIRMED = "User is not confirmed.";
 export const ERROR_PASSWORDS_NOT_MATCH = "Passwords do not match";
 export const ERROR_UPDATE_USER_ATTRIBUTES = "Something went wrong, try later";

@@ -39,7 +39,7 @@ export default function LoginForm() {
             navigate(ROUTE_TO_HOME);
         } catch (error) {
             if (error instanceof z.ZodError) {
-                const zodErrors = error.errors.map((err) => `${err.message}`).join("|");
+                const zodErrors = error.errors[0].message;
                 setError(zodErrors);
             } else {
                 const errorMessage = getErrorMessage(error);

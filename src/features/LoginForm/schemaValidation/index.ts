@@ -7,15 +7,12 @@ const PasswordRequirementsRegex =
 export const validateSchema = z.object({
     email: z
         .string()
+        .nonempty(ERROR_EMPTY_EMAIL)
         .email({
             message: ERROR_INVALID_EMAIL,
         })
-        .nonempty(ERROR_EMPTY_EMAIL)
         .trim(),
-    password: z
-        .string()
-        .regex(PasswordRequirementsRegex, {
-            message: ERROR_INVALID_PASSWORD,
-        })
-        .nonempty(ERROR_EMPTY_PASSWORD),
+    password: z.string().nonempty(ERROR_EMPTY_PASSWORD).regex(PasswordRequirementsRegex, {
+        message: ERROR_INVALID_PASSWORD,
+    }),
 });
