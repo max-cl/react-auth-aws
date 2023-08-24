@@ -1,4 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
+import Option from "./components/Option";
 
 interface Props {
     isLoginForm: boolean;
@@ -10,36 +11,22 @@ export default function LoginFormOptions({ isLoginForm, setIsLoginForm }: Props)
 
     return (
         <div className="flex">
-            <div
-                className={`w-6/12 flex justify-center ${
-                    isLoginForm ? "bg-gray-700 rounded-md rounded-bl-none rounded-br-none" : "bg-black "
-                }`}
-            >
-                <button
-                    onClick={() => {
-                        resetError();
-                        setIsLoginForm(true);
-                    }}
-                    className="w-full py-4 text-white uppercase tracking-widest outline-none"
-                >
-                    Login
-                </button>
-            </div>
-            <div
-                className={`w-6/12 flex justify-center ${
-                    isLoginForm ? "bg-black" : "bg-gray-700 rounded-md rounded-bl-none rounded-br-none"
-                }`}
-            >
-                <button
-                    onClick={() => {
-                        resetError();
-                        setIsLoginForm(false);
-                    }}
-                    className="w-full py-4 text-white uppercase tracking-widest outline-none"
-                >
-                    Sign Up
-                </button>
-            </div>
+            <Option
+                cssType={isLoginForm ? "bg-gray-700 rounded-md rounded-bl-none rounded-br-none" : "bg-black"}
+                onClick={() => {
+                    resetError();
+                    setIsLoginForm(true);
+                }}
+                btnText="Login"
+            />
+            <Option
+                cssType={isLoginForm ? "bg-black" : "bg-gray-700 rounded-md rounded-bl-none rounded-br-none"}
+                onClick={() => {
+                    resetError();
+                    setIsLoginForm(false);
+                }}
+                btnText="Sign Up"
+            />
         </div>
     );
 }

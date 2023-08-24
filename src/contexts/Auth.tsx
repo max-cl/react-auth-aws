@@ -14,6 +14,7 @@ import {
     AuthContextProps,
     ChangeUserPassword,
 } from "@/interfaces/auth";
+import { developmentLogs } from "@/utils/developmentLogs";
 
 export const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
@@ -37,14 +38,10 @@ export function AuthProvider({ children }: Props) {
                 family_name: response?.attributes?.family_name,
             });
 
-            if (import.meta.env.VITE_ENVIRONMENT === "development") {
-                console.log("User is AUTHENTICATED!! ", response);
-            }
+            developmentLogs({ message: "User is AUTHENTICATED!!", response });
         } catch (error) {
             setIsAuthenticated(false);
-            if (import.meta.env.VITE_ENVIRONMENT === "development") {
-                console.log("User IS UNAUTHENTICATED!!");
-            }
+            developmentLogs({ message: "User is UNAUTHENTICATED!!", response: error });
         }
     }
 
@@ -58,13 +55,9 @@ export function AuthProvider({ children }: Props) {
                 family_name: response?.attributes?.family_name,
             });
 
-            if (import.meta.env.VITE_ENVIRONMENT === "development") {
-                console.log("Login SUCCESS: ", response);
-            }
+            developmentLogs({ message: "Login SUCCESS: ", response });
         } catch (error) {
-            if (import.meta.env.VITE_ENVIRONMENT === "development") {
-                console.log("Error signing in:", JSON.parse(JSON.stringify(error)));
-            }
+            developmentLogs({ message: "[ERROR] Signing in: ", response: error });
             throw error;
         }
     }
@@ -74,9 +67,7 @@ export function AuthProvider({ children }: Props) {
             await Auth.signOut();
             setIsAuthenticated(false);
         } catch (error) {
-            if (import.meta.env.VITE_ENVIRONMENT === "development") {
-                console.log("[ERROR] signing out: ", JSON.parse(JSON.stringify(error)));
-            }
+            developmentLogs({ message: "[ERROR] Signing out: ", response: error });
             throw error;
         }
     }
@@ -93,9 +84,7 @@ export function AuthProvider({ children }: Props) {
                 },
             });
         } catch (error) {
-            if (import.meta.env.VITE_ENVIRONMENT === "development") {
-                console.log("[ERROR] signing up: ", JSON.parse(JSON.stringify(error)));
-            }
+            developmentLogs({ message: "[ERROR] Signing up: ", response: error });
             throw error;
         }
     }
@@ -104,9 +93,7 @@ export function AuthProvider({ children }: Props) {
         try {
             await Auth.confirmSignUp(email, code);
         } catch (error) {
-            if (import.meta.env.VITE_ENVIRONMENT === "development") {
-                console.log("[ERROR] confirming user: ", JSON.parse(JSON.stringify(error)));
-            }
+            developmentLogs({ message: "[ERROR] Confirming user: ", response: error });
             throw error;
         }
     }
@@ -115,9 +102,7 @@ export function AuthProvider({ children }: Props) {
         try {
             await Auth.resendSignUp(email);
         } catch (error) {
-            if (import.meta.env.VITE_ENVIRONMENT === "development") {
-                console.log("[ERROR] Resending code: ", JSON.parse(JSON.stringify(error)));
-            }
+            developmentLogs({ message: "[ERROR] Resending code: ", response: error });
             throw error;
         }
     }
@@ -126,9 +111,7 @@ export function AuthProvider({ children }: Props) {
         try {
             await Auth.forgotPassword(email);
         } catch (error) {
-            if (import.meta.env.VITE_ENVIRONMENT === "development") {
-                console.log("[ERROR] Forgot Password: ", JSON.parse(JSON.stringify(error)));
-            }
+            developmentLogs({ message: "[ERROR] Forgot Password: ", response: error });
             throw error;
         }
     }
@@ -137,9 +120,7 @@ export function AuthProvider({ children }: Props) {
         try {
             await Auth.forgotPasswordSubmit(email, code, password);
         } catch (error) {
-            if (import.meta.env.VITE_ENVIRONMENT === "development") {
-                console.log("[ERROR] Forgot Password Confirm: ", JSON.parse(JSON.stringify(error)));
-            }
+            developmentLogs({ message: "[ERROR] Forgot Password Confirm: ", response: error });
             throw error;
         }
     }
@@ -161,9 +142,7 @@ export function AuthProvider({ children }: Props) {
 
             return result;
         } catch (error) {
-            if (import.meta.env.VITE_ENVIRONMENT === "development") {
-                console.log("[ERROR] Updating User Attributes: ", JSON.parse(JSON.stringify(error)));
-            }
+            developmentLogs({ message: "[ERROR] Updating User Attributes: ", response: error });
             throw error;
         }
     }
@@ -174,9 +153,7 @@ export function AuthProvider({ children }: Props) {
             const result = await Auth.changePassword(user, oldPassword, newPassword);
             return result;
         } catch (error) {
-            if (import.meta.env.VITE_ENVIRONMENT === "development") {
-                console.log("[ERROR] Changing password: ", JSON.parse(JSON.stringify(error)));
-            }
+            developmentLogs({ message: "[ERROR] Changing password: ", response: error });
             throw error;
         }
     }

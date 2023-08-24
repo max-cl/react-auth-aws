@@ -95,7 +95,7 @@ export default function LoginForm() {
     }
 
     return (
-        <Form onSubmit={handleLogin}>
+        <Form onSubmit={handleLogin} cssCustom="rounded-tl-none">
             <ErrorMessage message={error} />
             <Input placeholder={PLACEHOLDER_EMAIL} onChange={onChangeEmail} value={email} />
             <Input type="password" placeholder={PLACEHOLDER_PASSWORD} onChange={onChangePassword} value={password} />

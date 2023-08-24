@@ -139,7 +139,7 @@ export default function SignupForm({ setIsLoginForm }: Props) {
     }
 
     return (
-        <Form onSubmit={handleSignUp}>
+        <Form onSubmit={handleSignUp} cssCustom="rounded-tr-none">
             <ErrorMessage message={error} />
             <Input placeholder={PLACEHOLDER_FIRSTNAME} onChange={onChangeFirstName} value={firstName} />
             <Input placeholder={PLACEHOLDER_LASTNAME} onChange={onChangeLastName} value={lastName} />
