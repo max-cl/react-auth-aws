@@ -27,12 +27,13 @@ export default function LoginForm() {
         event.preventDefault();
         setIsLoading(true);
 
-        let email = "";
+        let userEmail = "";
         const formData = new FormData(event.target as HTMLFormElement);
         const data = Object.fromEntries(formData);
 
         try {
             const { email, password } = validateSchema.parse(data);
+            userEmail = email;
             await signIn({ email, password });
             toast.success(SUCCESS_LOGIN);
             resetError();
@@ -45,8 +46,8 @@ export default function LoginForm() {
                 const errorMessage = getErrorMessage(error);
                 setError(errorMessage);
                 if (errorMessage === ERROR_USER_NOT_CONFIRMED) {
-                    resetError();
-                    navigate(`${ROUTE_TO_CONFIRMATION}?email=${email}`);
+                    navigate(`${ROUTE_TO_CONFIRMATION}?email=${userEmail}`);
+                    setError(null);
                 }
             }
         }
