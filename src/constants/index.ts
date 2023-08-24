@@ -1,9 +1,4 @@
 // ERROR MESSAGES
-
-/*** REMOVE */
-export const ERROR_EMPTY_FIELDS = "Fields cannot be empty";
-export const ERROR_EMPTY_FIELD = "Field cannot be empty";
-/**** */
 export const ERROR_EMPTY_FIRSTNAME = "First name is required";
 export const ERROR_EMPTY_LASTNAME = "Last name is required";
 export const ERROR_EMPTY_EMAIL = "Email is required";
