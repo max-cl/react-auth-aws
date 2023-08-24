@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { z } from "zod";
 
 import { useAuth } from "@/hooks/useAuth";
 import Form from "@/components/common/Form";
@@ -9,7 +9,6 @@ import { getErrorMessage } from "@/utils/getErrorMessage";
 import { toast } from "react-hot-toast";
 import {
     BUTTON_UPDATE_USER_ATTRIBUTES,
-    ERROR_EMPTY_FIELDS,
     ERROR_UPDATE_USER_ATTRIBUTES,
     PLACEHOLDER_FIRSTNAME,
     PLACEHOLDER_LASTNAME,
@@ -18,43 +17,25 @@ import {
 } from "@/constants";
 import { useNavigate } from "react-router-dom";
 import Badge from "@/components/common/Badge";
-
-interface InputsValidation {
-    firstName: string;
-    lastName: string;
-}
+import { validateSchema } from "./schemaValidation";
 
 export default function UserProfileForm() {
     const { updateUserAttributes, isLoading, setIsLoading, error, setError, resetError, userAttributes } = useAuth();
-    const [email] = useState(userAttributes?.email ?? "");
-    const [firstName, setFirstName] = useState(userAttributes?.given_name ?? "");
-    const [lastName, setLastName] = useState(userAttributes?.family_name ?? "");
     const navigate = useNavigate();
-
-    function inputsValidationUtil({ firstName, lastName }: InputsValidation) {
-        if (firstName.length === 0 || lastName.length === 0) {
-            setError(ERROR_EMPTY_FIELDS);
-            setIsLoading(false);
-            return false;
-        }
-
-        return true;
-    }
 
     async function handleUserProfile(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setIsLoading(true);
 
-        if (!inputsValidationUtil({ firstName, lastName })) {
-            return;
-        }
+        const formData = new FormData(event.target as HTMLFormElement);
+        const data = Object.fromEntries(formData);
 
         try {
+            const { firstName, lastName } = validateSchema.parse(data);
             const response = await updateUserAttributes({ given_name: firstName, family_name: lastName });
             if (response === "SUCCESS") {
                 toast.success(SUCCESS_UPDATE_USER_ATTRIBUTES);
-                setError("");
-                resetInputs();
+                resetError();
                 navigate(ROUTE_TO_HOME);
             } else {
                 toast.error(ERROR_UPDATE_USER_ATTRIBUTES);
@@ -63,39 +44,33 @@ export default function UserProfileForm() {
                 }
             }
         } catch (error) {
-            const errorMessage = getErrorMessage(error);
-            setError(errorMessage);
+            if (error instanceof z.ZodError) {
+                const zodErrors = error.errors[0].message;
+                setError(zodErrors);
+            } else {
+                const errorMessage = getErrorMessage(error);
+                setError(errorMessage);
+            }
         }
         setIsLoading(false);
-    }
-
-    function onChangeFirstName(e: React.ChangeEvent<HTMLInputElement>) {
-        if (error !== null) {
-            resetError();
-        }
-
-        setFirstName(e.target.value.trim());
-    }
-
-    function onChangeLastName(e: React.ChangeEvent<HTMLInputElement>) {
-        if (error !== null) {
-            resetError();
-        }
-
-        setLastName(e.target.value.trim());
-    }
-
-    function resetInputs() {
-        setFirstName("");
-        setLastName("");
     }
 
     return (
         <Form onSubmit={handleUserProfile}>
             <ErrorMessage message={error} />
-            <Badge badgeText={email} />
-            <Input placeholder={PLACEHOLDER_FIRSTNAME} onChange={onChangeFirstName} value={firstName} />
-            <Input placeholder={PLACEHOLDER_LASTNAME} onChange={onChangeLastName} value={lastName} />
+            <Badge badgeText={userAttributes?.email ?? ""} />
+            <Input
+                placeholder={PLACEHOLDER_FIRSTNAME}
+                onChange={() => resetError()}
+                name="firstName"
+                defaultValue={userAttributes?.given_name ?? ""}
+            />
+            <Input
+                placeholder={PLACEHOLDER_LASTNAME}
+                onChange={() => resetError()}
+                name="lastName"
+                defaultValue={userAttributes?.family_name ?? ""}
+            />
             <Button isLoading={isLoading} btnText={BUTTON_UPDATE_USER_ATTRIBUTES} />
         </Form>
     );

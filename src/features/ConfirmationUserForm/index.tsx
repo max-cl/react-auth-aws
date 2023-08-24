@@ -18,17 +18,12 @@ import {
 } from "@/constants";
 import { validateSchema } from "./schemaValidation";
 
-interface InputsValidation {
-    email: string | null;
-    code: string;
-}
-
 export default function ConfirmationUserForm() {
     const [searchParams] = useSearchParams();
     const { confirmUser, resendCode, isLoading, setIsLoading, error, setError, resetError } = useAuth();
     let navigate = useNavigate();
 
-    function checkEmailParamIsNull({ email }: Pick<InputsValidation, "email">) {
+    function checkEmailParamIsNull({ email }: { email: string | null }) {
         if (email === null || email.length === 0) {
             navigate(ROUTE_TO_LOGIN);
             setIsLoading(false);

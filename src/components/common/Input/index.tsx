@@ -6,9 +6,17 @@ interface Props {
     isDisabled?: boolean;
     name: string;
     onChange: () => void;
+    defaultValue?: string;
 }
 
-export default function Input({ type = "text", placeholder, isDisabled = false, name, onChange }: Props) {
+export default function Input({
+    type = "text",
+    placeholder,
+    isDisabled = false,
+    name,
+    onChange,
+    defaultValue = "",
+}: Props) {
     return (
         <input
             type={type}
@@ -17,6 +25,7 @@ export default function Input({ type = "text", placeholder, isDisabled = false, 
             disabled={isDisabled}
             name={name}
             onChange={onChange}
+            defaultValue={defaultValue}
         />
     );
 }
