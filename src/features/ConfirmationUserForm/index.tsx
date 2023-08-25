@@ -17,8 +17,10 @@ import {
     SUCCESS_RESEND_CODE,
 } from "@/constants";
 import { validateSchema } from "./schemaValidation";
+import { useState } from "react";
 
 export default function ConfirmationUserForm() {
+    const [isLoadingResendCode, setIsLoadingResendCode] = useState(false);
     const [searchParams] = useSearchParams();
     const { confirmUser, resendCode, isLoading, setIsLoading, error, setError, resetError } = useAuth();
     let navigate = useNavigate();
@@ -66,7 +68,7 @@ export default function ConfirmationUserForm() {
 
     async function handleResendCode() {
         const email = searchParams.get("email");
-        setIsLoading(true);
+        setIsLoadingResendCode(true);
 
         if (!checkEmailParamIsNull({ email })) {
             return;
@@ -80,7 +82,7 @@ export default function ConfirmationUserForm() {
             const errorMessage = getErrorMessage(error);
             setError(errorMessage);
         }
-        setIsLoading(false);
+        setIsLoadingResendCode(false);
     }
 
     return (
@@ -88,7 +90,12 @@ export default function ConfirmationUserForm() {
             <ErrorMessage message={error} />
             <Input placeholder={PLACEHOLDER_CONFIRMATION_CODE} onChange={() => resetError()} name="code" />
             <Button isLoading={isLoading} btnText={BUTTON_CONFIRM_USER} />
-            <Button type="button" onClick={handleResendCode} isLoading={isLoading} btnText={BUTTON_RESEND_CODE} />
+            <Button
+                type="button"
+                onClick={handleResendCode}
+                isLoading={isLoadingResendCode}
+                btnText={BUTTON_RESEND_CODE}
+            />
         </Form>
     );
 }
