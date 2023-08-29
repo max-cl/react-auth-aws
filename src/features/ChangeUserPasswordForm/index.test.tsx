@@ -4,6 +4,12 @@ import { useAuth } from "@/hooks/useAuth";
 import ChangeUserPasswordForm from "./";
 import { MockedFunction } from "vitest";
 import { z } from "zod";
+import {
+    BUTTON_CHANGE_PASSWORD,
+    PLACEHOLDER_OLD_PASSWORD,
+    PLACEHOLDER_PASSWORD,
+    PLACEHOLDER_REPASSWORD,
+} from "@/constants";
 
 vi.mock("@/hooks/useAuth", () => ({
     useAuth: vi.fn(),
@@ -25,7 +31,6 @@ describe("ChangeUserPasswordForm", () => {
             setError: mockSetError,
             resetError: mockResetError,
             userAttributes: { email: "test@example.com", given_name: "Name1", family_name: "LastName1" },
-            // Required properties inferred from the error message:
             isAuthenticated: false,
             signIn: vi.fn(),
             signOut: vi.fn(),
@@ -45,20 +50,20 @@ describe("ChangeUserPasswordForm", () => {
     test("renders form fields and buttons", () => {
         render(<ChangeUserPasswordForm />, { wrapper: Router });
 
-        expect(screen.getByPlaceholderText("Old Password")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Re-enter Password")).toBeInTheDocument();
-        expect(screen.getByText("Change Password")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText(PLACEHOLDER_OLD_PASSWORD)).toBeInTheDocument();
+        expect(screen.getByPlaceholderText(PLACEHOLDER_PASSWORD)).toBeInTheDocument();
+        expect(screen.getByPlaceholderText(PLACEHOLDER_REPASSWORD)).toBeInTheDocument();
+        expect(screen.getByText(BUTTON_CHANGE_PASSWORD)).toBeInTheDocument();
         expect(screen.getByText("test@example.com")).toBeInTheDocument();
     });
 
     test("calls resetError when inputs are changed", () => {
         render(<ChangeUserPasswordForm />, { wrapper: Router });
 
-        fireEvent.change(screen.getByPlaceholderText("Old Password"), { target: { value: "oldPassword" } });
+        fireEvent.change(screen.getByPlaceholderText(PLACEHOLDER_OLD_PASSWORD), { target: { value: "oldPassword" } });
         expect(mockResetError).toHaveBeenCalled();
 
-        fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "newPassword" } });
+        fireEvent.change(screen.getByPlaceholderText(PLACEHOLDER_PASSWORD), { target: { value: "newPassword" } });
         expect(mockResetError).toHaveBeenCalledTimes(2);
     });
 
@@ -68,7 +73,7 @@ describe("ChangeUserPasswordForm", () => {
 
         const spyFn = vi.spyOn(result.current, "changeUserPassword");
 
-        fireEvent.submit(screen.getByText("Change Password"));
+        fireEvent.submit(screen.getByText(BUTTON_CHANGE_PASSWORD));
 
         result.current.changeUserPassword({ oldPassword: "123", newPassword: "qwe" });
 
@@ -86,7 +91,7 @@ describe("ChangeUserPasswordForm", () => {
 
         render(<ChangeUserPasswordForm />, { wrapper: Router });
 
-        fireEvent.submit(screen.getByText("Change Password"));
+        fireEvent.submit(screen.getByText(BUTTON_CHANGE_PASSWORD));
 
         await waitFor(() => {
             expect(mockSetError).toHaveBeenCalled();

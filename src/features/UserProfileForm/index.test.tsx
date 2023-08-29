@@ -55,7 +55,6 @@ describe("UserProfileForm", () => {
         const lastNameInput = screen.getByDisplayValue("Doe");
         const updateButton = screen.getByText(BUTTON_UPDATE_USER_ATTRIBUTES);
 
-        // Simulating user input updates
         fireEvent.change(firstNameInput, { target: { value: "Janet" } });
         fireEvent.change(lastNameInput, { target: { value: "Dow" } });
 

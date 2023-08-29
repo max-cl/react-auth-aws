@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { z } from "zod";
 import LoginForm from "./";
 import { MockedFunction } from "vitest";
+import { BUTTON_LOGIN, PLACEHOLDER_EMAIL, PLACEHOLDER_PASSWORD } from "@/constants";
 
 vi.mock("@/hooks/useAuth", () => ({
     useAuth: vi.fn(),
@@ -25,7 +26,6 @@ describe("LoginForm", () => {
             setError: mockSetError,
             resetError: mockResetError,
             userAttributes: { email: "test@example.com", given_name: "Name1", family_name: "LastName1" },
-            // Required properties inferred from the error message:
             isAuthenticated: false,
             signOut: vi.fn(),
             signUp: vi.fn(),
@@ -45,18 +45,18 @@ describe("LoginForm", () => {
     test("renders form fields and buttons", () => {
         render(<LoginForm />, { wrapper: Router });
 
-        expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
-        expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
+        expect(screen.getByPlaceholderText(PLACEHOLDER_EMAIL)).toBeInTheDocument();
+        expect(screen.getByPlaceholderText(PLACEHOLDER_PASSWORD)).toBeInTheDocument();
         expect(screen.getByText("Login")).toBeInTheDocument();
     });
 
     test("calls resetError when inputs are changed", () => {
         render(<LoginForm />, { wrapper: Router });
 
-        fireEvent.change(screen.getByPlaceholderText("Email"), { target: { value: "test@example.com" } });
+        fireEvent.change(screen.getByPlaceholderText(PLACEHOLDER_EMAIL), { target: { value: "test@example.com" } });
         expect(mockResetError).toHaveBeenCalled();
 
-        fireEvent.change(screen.getByPlaceholderText("Password"), { target: { value: "password" } });
+        fireEvent.change(screen.getByPlaceholderText(PLACEHOLDER_PASSWORD), { target: { value: "password" } });
         expect(mockResetError).toHaveBeenCalledTimes(2);
     });
 
@@ -67,7 +67,7 @@ describe("LoginForm", () => {
 
         const spyFn = vi.spyOn(result.current, "signIn");
 
-        fireEvent.submit(screen.getByText("Login"));
+        fireEvent.submit(screen.getByText(BUTTON_LOGIN));
 
         result.current.signIn({ email: "name@mail.com", password: "@asD123123" });
 
@@ -84,7 +84,7 @@ describe("LoginForm", () => {
 
         render(<LoginForm />, { wrapper: Router });
 
-        fireEvent.submit(screen.getByText("Login"));
+        fireEvent.submit(screen.getByText(BUTTON_LOGIN));
 
         await waitFor(() => {
             expect(mockSetError).toHaveBeenCalled();

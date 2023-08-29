@@ -28,7 +28,6 @@ describe("ConfirmationUserForm", () => {
             setError: mockSetError,
             resetError: mockResetError,
             userAttributes: { email: "test@example.com", given_name: "Name1", family_name: "LastName1" },
-            // Required properties inferred from the error message:
             isAuthenticated: false,
             signIn: vi.fn(),
             signOut: vi.fn(),
