@@ -1,3 +1,5 @@
+import { useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 import { useAuth } from "@/hooks/useAuth";
@@ -17,18 +19,22 @@ import {
     SUCCESS_CHANGE_PASSWORD,
 } from "@/constants";
 import Badge from "@/components/common/Badge";
-import { useNavigate } from "react-router-dom";
 import { validateSchema } from "./schemaValidation";
 
 export default function ChangeUserPasswordForm() {
     const { changeUserPassword, isLoading, setIsLoading, error, setError, resetError, userAttributes } = useAuth();
     const navigate = useNavigate();
+    const formRef = useRef<HTMLFormElement>(null);
 
     async function handleChangeUserPassword(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setIsLoading(true);
 
-        const formData = new FormData(event.target as HTMLFormElement);
+        if (!formRef.current) {
+            return;
+        }
+
+        const formData = new FormData(formRef.current);
         const data = Object.fromEntries(formData);
 
         try {
@@ -57,7 +63,7 @@ export default function ChangeUserPasswordForm() {
     }
 
     return (
-        <Form onSubmit={handleChangeUserPassword}>
+        <Form ref={formRef} onSubmit={handleChangeUserPassword}>
             <ErrorMessage message={error} />
             <Badge badgeText={userAttributes?.email ?? ""} />
             <Input

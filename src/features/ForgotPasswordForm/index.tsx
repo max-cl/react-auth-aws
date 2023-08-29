@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -19,12 +20,17 @@ import { validateSchema } from "./schemaValidation";
 export default function ForgotPasswordForm() {
     const { forgotUserPassword, isLoading, setIsLoading, error, setError, resetError } = useAuth();
     let navigate = useNavigate();
+    const formRef = useRef<HTMLFormElement>(null);
 
     async function handleForgotPassword(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setIsLoading(true);
 
-        const formData = new FormData(event.target as HTMLFormElement);
+        if (!formRef.current) {
+            return;
+        }
+
+        const formData = new FormData(formRef.current);
         const data = Object.fromEntries(formData);
 
         try {
@@ -45,7 +51,7 @@ export default function ForgotPasswordForm() {
     }
 
     return (
-        <Form onSubmit={handleForgotPassword}>
+        <Form ref={formRef} onSubmit={handleForgotPassword}>
             <ErrorMessage message={error} />
             <Input placeholder={PLACEHOLDER_EMAIL} onChange={() => resetError()} name="email" />
             <Button isLoading={isLoading} btnText={BUTTON_FORGOT_PASSWORD} />

@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
@@ -22,13 +23,18 @@ import { validateSchema } from "./schemaValidation";
 export default function LoginForm() {
     const { signIn, isLoading, setIsLoading, error, setError, resetError } = useAuth();
     let navigate = useNavigate();
+    const formRef = useRef<HTMLFormElement>(null);
 
     async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setIsLoading(true);
 
+        if (!formRef.current) {
+            return;
+        }
+
         let userEmail = "";
-        const formData = new FormData(event.target as HTMLFormElement);
+        const formData = new FormData(formRef.current);
         const data = Object.fromEntries(formData);
 
         try {
@@ -56,7 +62,7 @@ export default function LoginForm() {
     }
 
     return (
-        <Form onSubmit={handleLogin} cssCustom="rounded-tl-none">
+        <Form ref={formRef} onSubmit={handleLogin} cssCustom="rounded-tl-none">
             <ErrorMessage message={error} />
             <Input name="email" placeholder={PLACEHOLDER_EMAIL} onChange={() => resetError()} />
             <Input type="password" name="password" placeholder={PLACEHOLDER_PASSWORD} onChange={() => resetError()} />

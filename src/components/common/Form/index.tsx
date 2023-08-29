@@ -1,13 +1,17 @@
+import { forwardRef } from "react";
+
 interface Props {
     onSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
     children: React.ReactNode;
     cssCustom?: string;
 }
 
-export default function Form({ onSubmit, children, cssCustom = "" }: Props) {
+const Form = forwardRef<HTMLFormElement, Props>(({ onSubmit, children, cssCustom = "" }, ref) => {
     return (
-        <form role="form" onSubmit={onSubmit} className={`card-body bg-gray-700 rounded-md ${cssCustom}`}>
+        <form ref={ref} role="form" onSubmit={onSubmit} className={`card-body bg-gray-700 rounded-md ${cssCustom}`}>
             <>{children}</>
         </form>
     );
-}
+});
+
+export default Form;

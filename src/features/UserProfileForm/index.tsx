@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { z } from "zod";
 
 import { useAuth } from "@/hooks/useAuth";
@@ -22,12 +23,17 @@ import { validateSchema } from "./schemaValidation";
 export default function UserProfileForm() {
     const { updateUserAttributes, isLoading, setIsLoading, error, setError, resetError, userAttributes } = useAuth();
     const navigate = useNavigate();
+    const formRef = useRef<HTMLFormElement>(null);
 
     async function handleUserProfile(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setIsLoading(true);
 
-        const formData = new FormData(event.target as HTMLFormElement);
+        if (!formRef.current) {
+            return;
+        }
+
+        const formData = new FormData(formRef.current);
         const data = Object.fromEntries(formData);
 
         try {
@@ -56,7 +62,7 @@ export default function UserProfileForm() {
     }
 
     return (
-        <Form onSubmit={handleUserProfile}>
+        <Form ref={formRef} onSubmit={handleUserProfile}>
             <ErrorMessage message={error} />
             <Badge badgeText={userAttributes?.email ?? ""} />
             <Input

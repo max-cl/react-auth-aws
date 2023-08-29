@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 
@@ -22,6 +23,7 @@ export default function ForgotPasswordSubmitForm() {
     const [searchParams] = useSearchParams();
     const { forgotUserPasswordConfirm, isLoading, setIsLoading, error, setError, resetError } = useAuth();
     let navigate = useNavigate();
+    const formRef = useRef<HTMLFormElement>(null);
 
     function checkEmailParamIsNull({ email }: { email: string | null }) {
         if (email === null || email.length === 0) {
@@ -39,11 +41,15 @@ export default function ForgotPasswordSubmitForm() {
         const email = searchParams.get("email");
         setIsLoading(true);
 
+        if (!formRef.current) {
+            return;
+        }
+
         if (!checkEmailParamIsNull({ email })) {
             return;
         }
 
-        const formData = new FormData(event.target as HTMLFormElement);
+        const formData = new FormData(formRef.current);
         const data = Object.fromEntries(formData);
 
         try {
@@ -64,7 +70,7 @@ export default function ForgotPasswordSubmitForm() {
     }
 
     return (
-        <Form onSubmit={handleForgotPasswordSubmit}>
+        <Form ref={formRef} onSubmit={handleForgotPasswordSubmit}>
             <ErrorMessage message={error} />
             <Input
                 type="password"

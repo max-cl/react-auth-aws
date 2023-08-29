@@ -1,3 +1,4 @@
+import { useRef } from "react";
 import { z } from "zod";
 
 import { useAuth } from "@/hooks/useAuth";
@@ -24,12 +25,17 @@ interface Props {
 
 export default function SignupForm({ setIsLoginForm }: Props) {
     const { signUp, isLoading, setIsLoading, error, setError, resetError } = useAuth();
+    const formRef = useRef<HTMLFormElement>(null);
 
     async function handleSignUp(event: React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setIsLoading(true);
 
-        const formData = new FormData(event.target as HTMLFormElement);
+        if (!formRef.current) {
+            return;
+        }
+
+        const formData = new FormData(formRef.current);
         const data = Object.fromEntries(formData);
 
         try {
@@ -51,7 +57,7 @@ export default function SignupForm({ setIsLoginForm }: Props) {
     }
 
     return (
-        <Form onSubmit={handleSignUp} cssCustom="rounded-tr-none">
+        <Form ref={formRef} onSubmit={handleSignUp} cssCustom="rounded-tr-none">
             <ErrorMessage message={error} />
             <Input placeholder={PLACEHOLDER_FIRSTNAME} onChange={() => resetError()} name="firstName" />
             <Input placeholder={PLACEHOLDER_LASTNAME} onChange={() => resetError()} name="lastName" />

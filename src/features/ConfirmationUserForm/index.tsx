@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 import toast from "react-hot-toast";
@@ -17,13 +18,13 @@ import {
     SUCCESS_RESEND_CODE,
 } from "@/constants";
 import { validateSchema } from "./schemaValidation";
-import { useState } from "react";
 
 export default function ConfirmationUserForm() {
     const [isLoadingResendCode, setIsLoadingResendCode] = useState(false);
     const [searchParams] = useSearchParams();
     const { confirmUser, resendCode, isLoading, setIsLoading, error, setError, resetError } = useAuth();
     let navigate = useNavigate();
+    const formRef = useRef<HTMLFormElement>(null);
 
     function checkEmailParamIsNull({ email }: { email: string | null }) {
         if (email === null || email.length === 0) {
@@ -41,11 +42,15 @@ export default function ConfirmationUserForm() {
         const email = searchParams.get("email");
         setIsLoading(true);
 
+        if (!formRef.current) {
+            return;
+        }
+
         if (!checkEmailParamIsNull({ email })) {
             return;
         }
 
-        const formData = new FormData(event.target as HTMLFormElement);
+        const formData = new FormData(formRef.current);
         const data = Object.fromEntries(formData);
 
         try {
@@ -86,7 +91,7 @@ export default function ConfirmationUserForm() {
     }
 
     return (
-        <Form onSubmit={handleUserConfirmation}>
+        <Form ref={formRef} onSubmit={handleUserConfirmation}>
             <ErrorMessage message={error} />
             <Input placeholder={PLACEHOLDER_CONFIRMATION_CODE} onChange={() => resetError()} name="code" />
             <Button isLoading={isLoading} btnText={BUTTON_CONFIRM_USER} />
