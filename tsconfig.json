@@ -21,9 +21,10 @@
         "noFallthroughCasesInSwitch": true,
         "paths": {
             "@/*": ["./src/*"]
-        }
+        },
+        "types": ["vitest/globals"]
     },
-    "include": ["src"],
+    "include": ["src", "vitestSetup.ts"],
     "exclude": ["node_modules"],
     "references": [{ "path": "./tsconfig.node.json" }]
 }
