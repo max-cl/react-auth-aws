@@ -6,7 +6,7 @@ interface Props {
 
 export default function Form({ onSubmit, children, cssCustom = "" }: Props) {
     return (
-        <form onSubmit={onSubmit} className={`card-body bg-gray-700 rounded-md ${cssCustom}`}>
+        <form role="form" onSubmit={onSubmit} className={`card-body bg-gray-700 rounded-md ${cssCustom}`}>
             <>{children}</>
         </form>
     );
