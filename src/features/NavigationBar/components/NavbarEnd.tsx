@@ -27,7 +27,7 @@ export default function NavbarEnd({ handleLogout, isLoading, firstName, lastName
                         className="btn btn-ghost btn-circle avatar"
                     >
                         <div className="w-10 rounded-full">
-                            <img src={userPlaceholderImgUrl} alt="User image" />
+                            <img src={userPlaceholderImgUrl} width={24} height={24} alt="User image" />
                         </div>
                     </label>
                     {showDropdown ? (

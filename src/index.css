@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .burger-menu {
+        opacity: 0;
+        pointer-events: none;
+        transform: translateY(-1000px);
+        transition: all 0.3s ease-in-out;
+    }
+
+    .burger-menu.show {
+        opacity: 1;
+        pointer-events: visible;
+        transform: translateY(0px);
+    }
+
+    .btn-burger-menu {
+        right: unset;
+        top: unset;
+        left: 8px;
+        bottom: 8px;
+        transition: all 0.5s ease-in-out;
+    }
+
+    .btn-burger-menu.close {
+        left: unset;
+        bottom: unset;
+        right: 8px;
+        top: 8px;
+    }
+}
