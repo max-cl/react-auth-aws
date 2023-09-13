@@ -20,7 +20,7 @@ export default function Button({
             type={type}
             disabled={isLoading}
             onClick={onClick}
-            className="btn btn-accent tracking-widest disabled:opacity-100"
+            className="tracking-widest btn btn-primary disabled:opacity-100"
         >
             {isLoading ? "Loading..." : btnText}
         </button>
