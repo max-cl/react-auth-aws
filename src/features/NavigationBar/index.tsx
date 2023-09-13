@@ -11,7 +11,7 @@ import NavbarEnd from "./components/NavbarEnd";
 
 export default function NavigationBar() {
     const { signOut, isLoading, setIsLoading, userAttributes, isAuthenticated, setError } = useAuth();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
 
     async function handleLogout() {
         setIsLoading(true);
@@ -28,7 +28,7 @@ export default function NavigationBar() {
     }
 
     return (
-        <div className="navbar bg-black">
+        <div className="bg-black navbar">
             <NavbarStart isAuthenticated={isAuthenticated} />
 
             {isAuthenticated ? (

@@ -67,3 +67,7 @@ export const ROUTE_TO_PAGE_3 = "/page3";
 export const ROUTE_TO_USER_PROFILE = "/user-profile";
 export const ROUTE_TO_CHANGE_PASSWORD = "/change-password";
 export const ROUTE_NOT_FOUND = "*";
+
+// REGEX
+export const REGEX_PASSWORD_VALIDATION =
+    /^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])(?=.*[\^$*.[\]{}()?!"@#%&/\\,><':;|_~`+=-]).{8,}$/;

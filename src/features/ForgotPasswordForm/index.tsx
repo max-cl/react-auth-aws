@@ -19,7 +19,7 @@ import { validateSchema } from "./schemaValidation";
 
 export default function ForgotPasswordForm() {
     const { forgotUserPassword, isLoading, setIsLoading, error, setError, resetError } = useAuth();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const formRef = useRef<HTMLFormElement>(null);
 
     async function handleForgotPassword(event: React.FormEvent<HTMLFormElement>) {

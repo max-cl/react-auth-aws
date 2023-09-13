@@ -22,7 +22,7 @@ import { validateSchema } from "./schemaValidation";
 export default function ForgotPasswordSubmitForm() {
     const [searchParams] = useSearchParams();
     const { forgotUserPasswordConfirm, isLoading, setIsLoading, error, setError, resetError } = useAuth();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const formRef = useRef<HTMLFormElement>(null);
 
     function checkEmailParamIsNull({ email }: { email: string | null }) {

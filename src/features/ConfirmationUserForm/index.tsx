@@ -23,7 +23,7 @@ export default function ConfirmationUserForm() {
     const [isLoadingResendCode, setIsLoadingResendCode] = useState(false);
     const [searchParams] = useSearchParams();
     const { confirmUser, resendCode, isLoading, setIsLoading, error, setError, resetError } = useAuth();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const formRef = useRef<HTMLFormElement>(null);
 
     function checkEmailParamIsNull({ email }: { email: string | null }) {

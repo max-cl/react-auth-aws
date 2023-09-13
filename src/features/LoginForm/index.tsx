@@ -22,7 +22,7 @@ import { validateSchema } from "./schemaValidation";
 
 export default function LoginForm() {
     const { signIn, isLoading, setIsLoading, error, setError, resetError } = useAuth();
-    let navigate = useNavigate();
+    const navigate = useNavigate();
     const formRef = useRef<HTMLFormElement>(null);
 
     async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
