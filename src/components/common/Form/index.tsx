@@ -1,8 +1,7 @@
 import { forwardRef } from "react";
 
-interface Props {
+interface Props extends React.HTMLAttributes<HTMLFormElement> {
     onSubmit: (event: React.FormEvent<HTMLFormElement>) => Promise<void>;
-    children: React.ReactNode;
     cssCustom?: string;
 }
 
